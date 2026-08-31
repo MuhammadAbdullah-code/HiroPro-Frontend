@@ -84,14 +84,17 @@ export default function AddYourBusinessPage() {
           <p className="text-xl text-white/90 mb-10">
             Join 500+ local businesses getting new customers every week — no per-lead fees.
           </p>
-          <motion.button
-            onClick={() => window.location.href = '/provider/signup?businessLogin=1'}
-            className="px-10 py-4 bg-[var(--color-secondary)] text-white rounded-lg hover:opacity-90 transition-opacity font-semibold text-lg shadow-xl"
+          <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Add Your Business — Free
-          </motion.button>
+            <Link
+              href="/provider/signup"
+              className="inline-flex px-10 py-4 bg-[var(--color-secondary)] text-white rounded-lg hover:opacity-90 transition-opacity font-semibold text-lg shadow-xl"
+            >
+              Add Your Business — Free
+            </Link>
+          </motion.div>
           <p className="text-white/70 mt-4 text-sm">
             No credit card required to start
           </p>
@@ -320,14 +323,17 @@ export default function AddYourBusinessPage() {
           <p className="text-xl text-white/90 mb-10">
             Join HirePro today and start connecting with local customers.
           </p>
-          <motion.button
-            onClick={() => window.location.href = '/provider/signup?businessLogin=1'}
-            className="px-10 py-4 bg-[var(--color-secondary)] text-white rounded-lg hover:opacity-90 transition-opacity font-semibold text-lg shadow-xl"
+          <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Add Your Business — Free
-          </motion.button>
+            <Link
+              href="/provider/signup"
+              className="inline-flex px-10 py-4 bg-[var(--color-secondary)] text-white rounded-lg hover:opacity-90 transition-opacity font-semibold text-lg shadow-xl"
+            >
+              Add Your Business — Free
+            </Link>
+          </motion.div>
           <p className="text-white/70 mt-4">
             Have questions? <Link href="/contact" className="underline hover:text-white">Contact us</Link> or check our <Link href="/faq" className="underline hover:text-white">FAQ</Link>
           </p>

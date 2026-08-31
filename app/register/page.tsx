@@ -13,6 +13,8 @@ export function RegisterPage({ forcedRole }: { forcedRole?: AccountRole } = {}) 
   const [role, setRole] = useState<AccountRole>(forcedRole ?? 'customer');
   const [serviceRequest, setServiceRequest] = useState(false);
   const [businessLogin, setBusinessLogin] = useState(false);
+  const isCustomerSignup = forcedRole === 'customer' || serviceRequest;
+  const isProviderSignup = forcedRole === 'business' || businessLogin;
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -103,11 +105,11 @@ export function RegisterPage({ forcedRole }: { forcedRole?: AccountRole } = {}) 
         role,
       });
       saveAccountRole(role);
-      router.push(serviceRequest
+      router.push(isCustomerSignup
         ? '/customer/login?registered=1&serviceRequest=1'
-        : businessLogin
+        : isProviderSignup
           ? '/provider/login?registered=1&businessLogin=1'
-        : `/${role === 'business' ? 'provider' : 'customer'}/login?registered=1`);
+          : `/${role === 'business' ? 'provider' : 'customer'}/login?registered=1`);
     } catch (error) {
       setErrors({ general: getApiErrorMessage(error, 'Something went wrong. Please try again.') });
     } finally {
@@ -130,7 +132,7 @@ export function RegisterPage({ forcedRole }: { forcedRole?: AccountRole } = {}) 
         {/* Header */}
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-[#12122E] mb-2 font-sora">
-            {serviceRequest ? 'Create Customer Account' : businessLogin ? 'Create Provider Account' : 'Create Account'}
+            {isCustomerSignup ? 'Create Customer Account' : isProviderSignup ? 'Create Provider Account' : 'Create Account'}
           </h1>
           <p className="text-[#6B7280] font-inter">
             Join thousands finding trusted local businesses
@@ -150,7 +152,7 @@ export function RegisterPage({ forcedRole }: { forcedRole?: AccountRole } = {}) 
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
-          {!serviceRequest && !businessLogin && <div>
+          {!isCustomerSignup && !isProviderSignup && <div>
             <div className="grid grid-cols-2 gap-2" role="group" aria-label="Account type">
               {(['customer', 'business'] as AccountRole[]).map(option => (
                 forcedRole ? (
@@ -381,7 +383,7 @@ export function RegisterPage({ forcedRole }: { forcedRole?: AccountRole } = {}) 
         {/* Footer Link */}
         <p className="mt-6 text-center text-sm text-[#6B7280] font-inter">
           Already have an account?{' '}
-          <Link href={serviceRequest ? '/customer/login?serviceRequest=1' : businessLogin ? '/provider/login?businessLogin=1' : `/${role === 'business' ? 'provider' : 'customer'}/login`} className="text-[#0F9D8C] font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-[#0F9D8C]/20 rounded px-1">
+          <Link href={isCustomerSignup ? '/customer/login?serviceRequest=1' : isProviderSignup ? '/provider/login?businessLogin=1' : `/${role === 'business' ? 'provider' : 'customer'}/login`} className="text-[#0F9D8C] font-semibold hover:underline focus:outline-none focus:ring-2 focus:ring-[#0F9D8C]/20 rounded px-1">
             Log in
           </Link>
         </p>

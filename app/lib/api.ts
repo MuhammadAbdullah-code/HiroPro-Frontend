@@ -13,6 +13,7 @@ export interface Category { id: Id; name: string; slug: string; description: str
 export interface CategoryDetail extends Category { faqs: FAQ[] }
 export interface VerificationDocument extends Json { id?: Id; type?: string; document_type?: string; file_url?: string; url?: string; file_name?: string; status?: string; uploaded_at?: ISODateTime }
 export interface Business { id: Id; owner_id: Id; category_id: Id; name: string; slug: string; description: string; city: string; address: string; phone: string; website: string; latitude: number | null; longitude: number | null; is_verified: boolean; is_active: boolean; view_count: number; created_at: ISODateTime; verification_status?: string; verification_submitted_at?: ISODateTime; verification_rejection_reason?: string | null; cnic_url?: string | null; professional_work_certificate_url?: string | null; documents?: VerificationDocument[] }
+export interface VerificationDecisionInput extends Json { verified: boolean; rejection_reason?: string }
 export interface Review { id: Id; user_id: Id; business_id: Id; rating: number; title: string; comment: string; helpful_count: number; created_at: ISODateTime }
 export interface Quote { id: Id; business_id: Id; details: string; budget: number | null; status: string; created_at: ISODateTime }
 export interface Onboarding { user_id: Id; current_step: number; data: Record<string, unknown>; completed: boolean }
@@ -226,7 +227,9 @@ export class HireProApi {
     signin: (input: LoginInput) => this.request<TokenResponse>('/admin/signin', { method: 'POST', body: input }),
     signout: () => this.request<void>('/admin/signout', { method: 'POST', auth: true }),
     verificationQueue: () => this.request<Business[]>('/admin/verification', { auth: true }),
-    verifyBusiness: (id: Id, verified: boolean) => this.request<Business>(`/admin/verification/${encodeURIComponent(id)}`, { method: 'PATCH', body: { verified }, auth: true }),
+    verificationDetail: (id: Id) => this.request<Json>(`/admin/verification/${encodeURIComponent(id)}`, { auth: true }),
+    verificationDocument: (businessId: Id, documentId: Id) => this.request<string | Json>(`/admin/verification/${encodeURIComponent(businessId)}/documents/${encodeURIComponent(documentId)}`, { auth: true }),
+    verifyBusiness: (id: Id, verified: boolean, rejectionReason?: string) => this.request<Business>(`/admin/verification/${encodeURIComponent(id)}`, { method: 'PATCH', body: { verified, ...(rejectionReason ? { rejection_reason: rejectionReason } : {}) } satisfies VerificationDecisionInput, auth: true }),
     stats: () => this.request<AdminStats>('/admin/stats', { auth: true }),
     reviewQueue: () => this.request<Review[]>('/admin/moderation/reviews', { auth: true }),
     moderateReview: (id: Id, approved: boolean) => this.request<Review>(`/admin/moderation/reviews/${encodeURIComponent(id)}`, { method: 'PATCH', body: { approved }, auth: true }),
