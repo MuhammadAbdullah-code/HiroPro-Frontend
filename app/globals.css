@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+:root {
+  /* Primary Colors */
+  --color-primary: #1E1B6E;
+  --color-primary-dark: #171456;
+  --color-secondary: #0F9D8C;
+
+  /* Accent Colors */
+  --color-accent: #F4623A;
+  --color-star: #FFB800;
+
+  /* Text Colors */
+  --color-text-heading: #12122E;
+  --color-text-body: #6B7280;
+  --color-text-muted: #9CA3AF;
+
+  /* Background Colors */
+  --color-bg-light: #F7F8FA;
+  --color-bg-white: #FFFFFF;
+
+  /* Borders */
+  --color-border: #E5E7EB;
+
+  /* Button Styles */
+  --btn-primary-bg: var(--color-secondary);
+  --btn-primary-text: #FFFFFF;
+  --btn-secondary-bg: #FFFFFF;
+  --btn-secondary-border: var(--color-border);
+
+  /* Legacy compatibility */
+  --background: var(--color-bg-white);
+  --foreground: var(--color-text-body);
+}
+
+/* Dark Mode */
+.dark {
+  /* Primary Colors - Brighter for dark mode */
+  --color-primary: #4A47C4;
+  --color-primary-dark: #2E2B8A;
+  --color-secondary: #14C9B5;
+
+  /* Accent Colors */
+  --color-accent: #FF7A5C;
+  --color-star: #FFC328;
+
+  /* Text Colors */
+  --color-text-heading: #F9FAFB;
+  --color-text-body: #D1D5DB;
+  --color-text-muted: #9CA3AF;
+
+  /* Background Colors */
+  --color-bg-light: #1F2937;
+  --color-bg-white: #111827;
+
+  /* Borders */
+  --color-border: #374151;
+
+  /* Button Styles */
+  --btn-primary-bg: var(--color-secondary);
+  --btn-primary-text: #111827;
+  --btn-secondary-bg: #1F2937;
+  --btn-secondary-border: var(--color-border);
+
+  /* Legacy compatibility */
+  --background: var(--color-bg-white);
+  --foreground: var(--color-text-body);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Font utility classes */
+.font-sora {
+  font-family: var(--font-sora), sans-serif;
+}
+
+.font-inter {
+  font-family: var(--font-inter), sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+
+/* Pulse animation for active job dots */
+@keyframes pulse-coral {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pulse-coral {
+    animation: pulse-coral 2s ease-in-out infinite;
+  }
+}
+
+/* Fade slide animation for ticker */
+@keyframes fade-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ticker-item {
+    animation: fade-slide-up 4s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-coral,
+  .ticker-item {
+    animation: none;
+  }
+}
+
